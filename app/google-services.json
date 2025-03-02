@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "469375913691",
+    "project_id": "deliversurimbo",
+    "storage_bucket": "deliversurimbo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:469375913691:android:9ac3e72dd2e154d01dc6fe",
+        "android_client_info": {
+          "package_name": "com.example.testing2fire"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzOVT4eEeJvNZpsqZviW46hjeJ4cS--XA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:469375913691:android:9d3cc5de6173b6af1dc6fe",
+        "android_client_info": {
+          "package_name": "com.example.testingfirebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzOVT4eEeJvNZpsqZviW46hjeJ4cS--XA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
