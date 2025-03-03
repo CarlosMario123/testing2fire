@@ -8,24 +8,28 @@ import android.util.Log
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 
-class MyApp:Application() {
+class MyApp : Application() {
     companion object {
         const val NOTIFICATION_CHANNEL_ID = "notification_fcm"
     }
+
     override fun onCreate() {
         super.onCreate()
         println("App creada")
+
+        // Crear canal de notificaciones - ¡IMPORTANTE!
+        createNotificationChannel()
+
         Firebase.messaging.token.addOnCompleteListener {
             if(!it.isSuccessful){
-                Log.d("dbug","token no fue generadi")
+                Log.d("dbug", "Token no fue generado")
                 println("El token no fue generado correctamente")
                 return@addOnCompleteListener
             }
             val token = it.result
             println("El valor del token es")
             println(token)
-            Log.d("dbug",token)
-
+            Log.d("dbug", token)
         }
     }
 
@@ -35,12 +39,10 @@ class MyApp:Application() {
                 NOTIFICATION_CHANNEL_ID,
                 "Notificacion de fcm",
                 NotificationManager.IMPORTANCE_HIGH
-                )
+            )
             channel.description = "Esta notificacion va ser recibida desde fcm"
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(channel)
-
         }
     }
-
 }
