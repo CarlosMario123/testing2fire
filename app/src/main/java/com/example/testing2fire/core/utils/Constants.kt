@@ -5,7 +5,7 @@ package com.example.testing2fire.core.utils
  */
 object Constants {
     // API
-    const val API_BASE_URL = "http://192.168.100.36:5000/api/"
+    const val API_BASE_URL = "http://192.168.0.13:5000/api/"
 
     // Timeouts
     const val CONNECTION_TIMEOUT = 30L
