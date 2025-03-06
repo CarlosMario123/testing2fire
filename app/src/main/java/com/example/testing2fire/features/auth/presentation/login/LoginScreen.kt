@@ -1,5 +1,6 @@
 package com.example.testing2fire.features.auth.presentation.login
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -8,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
@@ -49,7 +51,9 @@ fun LoginScreen(
             Text(
                 text = "Iniciar Sesión",
                 style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(bottom = 32.dp)
+                modifier = Modifier.padding(bottom = 32.dp),
+                color = Color.White
+
             )
 
             // Campo de correo electrónico
@@ -78,11 +82,13 @@ fun LoginScreen(
                     viewModel.onEvent(LoginEvent.LoginClicked)
                 },
                 modifier = Modifier.padding(bottom = 24.dp)
+
             )
 
             // Botón de inicio de sesión
             PrimaryButton(
                 text = "Iniciar Sesión",
+
                 onClick = { viewModel.onEvent(LoginEvent.LoginClicked) },
                 isLoading = state.isLoading,
                 modifier = Modifier.padding(bottom = 16.dp)
@@ -93,7 +99,8 @@ fun LoginScreen(
                 onClick = { onNavigateToRegister() },
                 modifier = Modifier.padding(top = 8.dp)
             ) {
-                Text("¿No tienes cuenta? Regístrate")
+                Text(text = "¿No tienes cuenta? Regístrate",
+                    color = Color.White)
             }
 
             // Mostrar mensaje de error si existe

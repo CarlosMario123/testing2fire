@@ -10,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -48,8 +49,9 @@ fun RegisterScreen(
         ) {
             Text(
                 text = "Registro de Repartidor",
+                color = Color.White,
                 style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(bottom = 32.dp)
+                modifier = Modifier.padding(bottom = 5.dp)
             )
 
             AppTextField(
@@ -59,7 +61,7 @@ fun RegisterScreen(
                 error = state.emailError,
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = 5.dp)
             )
 
             AppTextField(
@@ -68,7 +70,7 @@ fun RegisterScreen(
                 label = "Nombre completo",
                 error = state.nameError,
                 imeAction = ImeAction.Next,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = 5.dp)
             )
 
             AppTextField(
@@ -78,7 +80,7 @@ fun RegisterScreen(
                 error = state.phoneError,
                 keyboardType = KeyboardType.Phone,
                 imeAction = ImeAction.Next,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = 5.dp)
             )
 
             AppTextField(
@@ -90,21 +92,22 @@ fun RegisterScreen(
                 imeAction = ImeAction.Done,
                 isPassword = true,
                 onImeAction = { viewModel.onEvent(RegisterEvent.RegisterClicked) },
-                modifier = Modifier.padding(bottom = 24.dp)
+                modifier = Modifier.padding(bottom = 5.dp)
             )
 
             PrimaryButton(
                 text = "Registrarse",
                 onClick = { viewModel.onEvent(RegisterEvent.RegisterClicked) },
                 isLoading = state.isLoading,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = 8.dp)
             )
+            TextButton(
+                onClick = { onNavigateToLogin() },
+            ) {
+                Text(text = "¿No tienes cuenta? Regístrate",
+                    color = Color.White)
+            }
 
-            SecondaryButton(
-                text = "¿Ya tienes cuenta? Iniciar sesión",
-                onClick = onNavigateToLogin,  // Usar el callback directamente
-                enabled = !state.isLoading
-            )
 
             if (state.errorMessage != null) {
                 Text(

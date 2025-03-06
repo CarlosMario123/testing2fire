@@ -2,6 +2,7 @@ package com.example.testing2fire.features.orders.presentation.pending
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,12 +15,19 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
+import com.example.testing2fire.R
 import com.example.testing2fire.features.orders.domain.model.Order
 import java.text.SimpleDateFormat
 import java.util.*
@@ -61,8 +69,10 @@ fun PendingOrdersScreen(
     }
 
     Scaffold(
+        modifier = Modifier.background(Color(0xFF07203C)),
         topBar = {
             TopAppBar(
+                modifier = Modifier.background(Color(0xFF07203C)),
                 title = { Text("Pedidos Pendientes") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
@@ -81,6 +91,7 @@ fun PendingOrdersScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
+                .background(Color(0xFF07203C))
         ) {
             when (uiState) {
                 is PendingOrdersViewModel.UiState.Loading -> {
@@ -93,7 +104,7 @@ fun PendingOrdersScreen(
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
                         items(orders) { order ->
                             PendingOrderItem(
@@ -169,18 +180,24 @@ fun PendingOrderItem(
     onItemClicked: () -> Unit
 ) {
     val dateFormatter = remember { SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()) }
+    var borderColor by remember { mutableStateOf(Color.White) }
 
-    Card(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onItemClicked),
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            .clickable {
+                onItemClicked()
+                borderColor = Color(0xFFFFCE00) // Amarillo al hacer clic (opcional)
+            }
+            .border(1.dp, borderColor, RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(12.dp))
+            .background(Color.Transparent) // Fondo transparente
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(16.dp)
+                .background(Color.Transparent) // Fondo transparente dentro del contenido
         ) {
             // Cliente y fecha
             Row(
@@ -190,13 +207,14 @@ fun PendingOrderItem(
                 Text(
                     text = order.userInfo.name,
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White // Texto blanco
                 )
 
                 Text(
                     text = dateFormatter.format(order.createdAt),
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.outline
+                    color = Color.White // Texto blanco
                 )
             }
 
@@ -206,6 +224,7 @@ fun PendingOrderItem(
             Text(
                 text = order.address,
                 style = MaterialTheme.typography.bodyMedium,
+                color = Color.White, // Texto blanco
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
@@ -216,6 +235,7 @@ fun PendingOrderItem(
             Text(
                 text = "Notas: ${order.notes}",
                 style = MaterialTheme.typography.bodyMedium,
+                color = Color.White, // Texto blanco
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis
             )
@@ -225,13 +245,22 @@ fun PendingOrderItem(
             // Botón para tomar el pedido
             Button(
                 onClick = onAssignClicked,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp) // Coincide con CustomButton
+                    .padding(16.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFFFCE00),
+                    contentColor = Color(0xFF242A2D)
+                )
             ) {
                 Text("Tomar Pedido")
             }
         }
     }
 }
+
 
 @Composable
 fun ErrorView(
@@ -248,7 +277,8 @@ fun ErrorView(
         Text(
             text = "Error al cargar pedidos",
             style = MaterialTheme.typography.titleMedium,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = Color.White
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -272,6 +302,15 @@ fun ErrorView(
 fun EmptyView(
     onRefresh: () -> Unit
 ) {
+    val composition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(R.raw.empty)
+    )
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = Int.MAX_VALUE,
+        isPlaying = true
+    )
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -287,10 +326,10 @@ fun EmptyView(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Text(
-            text = "En este momento no hay pedidos disponibles para tomar",
-            style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Center
+        LottieAnimation(
+            composition = composition,
+            progress = { progress },
+            modifier = Modifier.size(200.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))

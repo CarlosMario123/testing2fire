@@ -1,5 +1,6 @@
 package com.example.testing2fire.core.navigation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -8,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -52,16 +54,17 @@ fun MainNavigationGraph(
             if (showBottomBar) {
                 BottomNavigationBar(
                     navController = navController,
-                    orderManager = orderManager
+                    orderManager = orderManager,
                 )
             }
         }
     ) { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues)) {
+        Box(modifier = Modifier.padding(paddingValues)
+            .background(Color(0xFF07203C))) {
             NavHost(
                 navController = navController,
                 startDestination = startDestination,
-                modifier = modifier
+                modifier = Modifier.background(Color(0xFF07203C))
             ) {
                 authRoutes(navController)
                 ordersRoutes(

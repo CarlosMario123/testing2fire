@@ -1,5 +1,6 @@
 package com.example.testing2fire.features.orders.presentation.active
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,6 +33,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -68,12 +71,13 @@ fun ActiveOrderScreen(
                 }
             )
         },
-        modifier = modifier
+        modifier = Modifier.background(Color(0xFF07203C))
     ) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
+                .padding(paddingValues)
+                .background(Color(0xFF07203C)),
             contentAlignment = Alignment.Center
         ) {
             if (state.isLoading) {
@@ -89,7 +93,8 @@ fun ActiveOrderScreen(
                         text = state.error ?: "Error desconocido",
                         color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.bodyLarge,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     SecondaryButton(
@@ -109,7 +114,8 @@ fun ActiveOrderScreen(
                 ) {
                     // Información del cliente
                     Card(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFF243E57))
                     ) {
                         Column(
                             modifier = Modifier.padding(16.dp),
@@ -118,7 +124,8 @@ fun ActiveOrderScreen(
                             Text(
                                 text = "Información del Cliente",
                                 style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White,
                             )
 
                             Divider()
@@ -129,11 +136,13 @@ fun ActiveOrderScreen(
                                 Icon(
                                     imageVector = Icons.Default.Person,
                                     contentDescription = "Nombre",
-                                    modifier = Modifier.padding(end = 8.dp)
+                                    modifier = Modifier.padding(end = 8.dp),
+                                    tint = Color.White
                                 )
                                 Text(
                                     text = order.userInfo.name,
-                                    style = MaterialTheme.typography.bodyLarge
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color =Color.White,
                                 )
                             }
 
@@ -143,11 +152,13 @@ fun ActiveOrderScreen(
                                 Icon(
                                     imageVector = Icons.Default.Phone,
                                     contentDescription = "Teléfono",
-                                    modifier = Modifier.padding(end = 8.dp)
+                                    modifier = Modifier.padding(end = 8.dp),
+                                    tint = Color.White
                                 )
                                 Text(
                                     text = order.userInfo.phone,
-                                    style = MaterialTheme.typography.bodyLarge
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color =Color.White,
                                 )
                             }
 
@@ -157,11 +168,13 @@ fun ActiveOrderScreen(
                                 Icon(
                                     imageVector = Icons.Default.LocationOn,
                                     contentDescription = "Dirección",
-                                    modifier = Modifier.padding(end = 8.dp)
+                                    modifier = Modifier.padding(end = 8.dp),
+                                    tint = Color.White
                                 )
                                 Text(
                                     text = order.address,
-                                    style = MaterialTheme.typography.bodyLarge
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color =Color.White,
                                 )
                             }
                         }
@@ -169,7 +182,8 @@ fun ActiveOrderScreen(
 
                     // Detalles del pedido
                     Card(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFF243E57))
                     ) {
                         Column(
                             modifier = Modifier.padding(16.dp),
@@ -178,14 +192,16 @@ fun ActiveOrderScreen(
                             Text(
                                 text = "Detalles del Pedido",
                                 style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                color =Color.White,
                             )
 
                             Divider()
 
                             Text(
                                 text = order.notes,
-                                style = MaterialTheme.typography.bodyLarge
+                                style = MaterialTheme.typography.bodyLarge,
+                                color =Color.White,
                             )
                         }
                     }

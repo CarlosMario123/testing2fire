@@ -1,5 +1,6 @@
 package com.example.testing2fire.core.components
 
+import androidx.compose.foundation.background
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -9,6 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -34,7 +37,8 @@ fun BottomNavigationBar(
     val activeOrder by orderManager.activeOrder.collectAsState()
 
     NavigationBar(
-        containerColor = MaterialTheme.colorScheme.surface
+        containerColor = Color(0xFF07203C),
+        modifier = Modifier.background(Color(0xFF07203C))
     ) {
         items.forEach { item ->
             val selected = when (item) {
@@ -62,11 +66,12 @@ fun BottomNavigationBar(
                 label = {
                     Text(
                         text = item.title,
-                        color = if (enabled) LocalContentColor.current else LocalContentColor.current.copy(alpha = 0.38f)
+                        color = if (enabled) Color.White else LocalContentColor.current.copy(alpha = 0.38f)
                     )
                 },
                 selected = selected,
                 enabled = enabled,
+                modifier = Modifier.background(Color(0xFF07203C)),
                 onClick = {
                     if (enabled) {
                         when (item) {

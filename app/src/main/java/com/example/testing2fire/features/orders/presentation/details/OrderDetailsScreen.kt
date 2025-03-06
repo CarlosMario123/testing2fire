@@ -1,5 +1,6 @@
 package com.example.testing2fire.features.orders.presentation.details
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,6 +34,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -77,7 +80,8 @@ fun OrderDetailsScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
+                .padding(paddingValues)
+                .background(Color(0xFF07203C)),
             contentAlignment = Alignment.Center
         ) {
             when {
@@ -132,7 +136,8 @@ fun OrderDetailsScreen(
 
                         // Información del cliente
                         Card(
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xFF243E57))
                         ) {
                             Column(
                                 modifier = Modifier.padding(16.dp),
@@ -140,6 +145,7 @@ fun OrderDetailsScreen(
                             ) {
                                 Text(
                                     text = "Información del Cliente",
+                                    color =Color.White,
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -151,11 +157,14 @@ fun OrderDetailsScreen(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.Person,
+
                                         contentDescription = "Nombre",
-                                        modifier = Modifier.padding(end = 8.dp)
+                                        modifier = Modifier.padding(end = 8.dp),
+                                        tint = Color.White
                                     )
                                     Text(
                                         text = order.userInfo.name,
+                                        color =Color.White,
                                         style = MaterialTheme.typography.bodyLarge
                                     )
                                 }
@@ -166,10 +175,12 @@ fun OrderDetailsScreen(
                                     Icon(
                                         imageVector = Icons.Default.Phone,
                                         contentDescription = "Teléfono",
-                                        modifier = Modifier.padding(end = 8.dp)
+                                        modifier = Modifier.padding(end = 8.dp),
+                                        tint = Color.White
                                     )
                                     Text(
                                         text = order.userInfo.phone,
+                                        color =Color.White,
                                         style = MaterialTheme.typography.bodyLarge
                                     )
                                 }
@@ -180,10 +191,12 @@ fun OrderDetailsScreen(
                                     Icon(
                                         imageVector = Icons.Default.LocationOn,
                                         contentDescription = "Dirección",
-                                        modifier = Modifier.padding(end = 8.dp)
+                                        modifier = Modifier.padding(end = 8.dp),
+                                        tint = Color.White
                                     )
                                     Text(
                                         text = order.address,
+                                        color =Color.White,
                                         style = MaterialTheme.typography.bodyLarge
                                     )
                                 }
@@ -192,7 +205,8 @@ fun OrderDetailsScreen(
 
                         // Detalles del pedido
                         Card(
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xFF243E57))
                         ) {
                             Column(
                                 modifier = Modifier.padding(16.dp),
@@ -200,6 +214,7 @@ fun OrderDetailsScreen(
                             ) {
                                 Text(
                                     text = "Detalles del Pedido",
+                                    color =Color.White,
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -208,12 +223,14 @@ fun OrderDetailsScreen(
 
                                 Text(
                                     text = "Notas:",
+                                    color =Color.White,
                                     style = MaterialTheme.typography.bodyMedium,
                                     fontWeight = FontWeight.Bold
                                 )
 
                                 Text(
                                     text = order.notes,
+                                    color =Color.White,
                                     style = MaterialTheme.typography.bodyLarge
                                 )
                             }
@@ -235,16 +252,20 @@ fun OrderStatusCard(
     val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
 
     Card(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF243E57))
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            modifier = Modifier.padding(16.dp)
+                .background(Color(0xFF243E57)),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+
         ) {
             Text(
                 text = "Estado del Pedido",
                 style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color =Color.White,
             )
 
             Divider()
@@ -284,12 +305,14 @@ fun OrderStatusCard(
                 Icon(
                     imageVector = Icons.Default.Info,
                     contentDescription = "Fecha de creación",
-                    modifier = Modifier.padding(end = 8.dp)
+                    modifier = Modifier.padding(end = 8.dp),
+                    tint = Color.White
                 )
                 Text(
                     text = "Creado: ${dateFormat.format(createdAt)}",
                     style = MaterialTheme.typography.bodyMedium,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    color =Color.White,
                 )
             }
 
@@ -300,12 +323,14 @@ fun OrderStatusCard(
                     Icon(
                         imageVector = Icons.Default.Info,
                         contentDescription = "Fecha de asignación",
-                        modifier = Modifier.padding(end = 8.dp)
+                        modifier = Modifier.padding(end = 8.dp),
+                        tint = Color.White
                     )
                     Text(
                         text = "Asignado: ${dateFormat.format(assignedAt)}",
                         style = MaterialTheme.typography.bodyMedium,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        color =Color.White,
                     )
                 }
             }
@@ -317,12 +342,14 @@ fun OrderStatusCard(
                     Icon(
                         imageVector = Icons.Default.Info,
                         contentDescription = "Fecha de finalización",
-                        modifier = Modifier.padding(end = 8.dp)
+                        modifier = Modifier.padding(end = 8.dp),
+                        tint = Color.White
                     )
                     Text(
                         text = "Completado: ${dateFormat.format(completedAt)}",
                         style = MaterialTheme.typography.bodyMedium,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        color =Color.White,
                     )
                 }
             }
