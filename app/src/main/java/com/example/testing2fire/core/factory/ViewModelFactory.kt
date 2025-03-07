@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 
 /**
  * Factory base para crear instancias de ViewModel
- * Debe ser extendida por cada ViewModel específico que necesite inyección de dependencias
  */
 abstract class ViewModelFactory<T : ViewModel> : ViewModelProvider.Factory {
 
@@ -23,7 +22,7 @@ abstract class ViewModelFactory<T : ViewModel> : ViewModelProvider.Factory {
     abstract fun getViewModelClass(): Class<T>
 
     /**
-     * Método que crea una instancia del ViewModel con sus dependencias
+     * Metodo que crea una instancia del ViewModel con sus dependencias
      */
     abstract fun createViewModel(): T
 }

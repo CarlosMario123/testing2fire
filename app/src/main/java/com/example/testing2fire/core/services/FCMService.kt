@@ -30,16 +30,14 @@ class FCMService : FirebaseMessagingService() {
         private const val TAG = "FCMService"
         private var token: String? = null
 
-        /**
-         * Obtiene el token actual o lo solicita a Firebase
-         */
+
         fun getToken(context: Context, callback: (String?) -> Unit) {
             if (token != null) {
                 callback(token)
                 return
             }
 
-            // Intentar recuperar el token almacenado en preferencias
+
             val prefManager = PreferencesManager(context)
 
             FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
@@ -51,7 +49,7 @@ class FCMService : FirebaseMessagingService() {
 
                 token = task.result
 
-                // Guardar el token en preferencias
+                // En esta parte del codigo se guarda el FCM Token
                 CoroutineScope(Dispatchers.IO).launch {
                     prefManager.saveFCMToken(token ?: "")
                 }
@@ -64,26 +62,22 @@ class FCMService : FirebaseMessagingService() {
     override fun onNewToken(newToken: String) {
         Log.d(TAG, "Refreshed token: $newToken")
         token = newToken
-
-        // Guardar el token en preferencias
         val prefManager = PreferencesManager(applicationContext)
         scope.launch {
             prefManager.saveFCMToken(newToken)
         }
 
-        // Aquí añadirías la lógica para enviar el token al servidor
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.d(TAG, "From: ${remoteMessage.from}")
 
-        // Verificar si el mensaje contiene datos
+
         if (remoteMessage.data.isNotEmpty()) {
             Log.d(TAG, "Message data payload: ${remoteMessage.data}")
             handleDataMessage(remoteMessage.data)
         }
 
-        // Verificar si el mensaje contiene una notificación
         remoteMessage.notification?.let {
             Log.d(TAG, "Message Notification Body: ${it.body}")
             sendNotification(it.title ?: "Notificación", it.body ?: "")
@@ -96,15 +90,14 @@ class FCMService : FirebaseMessagingService() {
         when (type) {
             "new_order" -> {
                 val orderId = data["order_id"] ?: return
-                // Aquí manejarías la lógica específica para nuevas órdenes
+
             }
             "order_assigned" -> {
                 val orderId = data["order_id"] ?: return
-                // Lógica para órdenes asignadas
+
             }
             "order_completed" -> {
                 val orderId = data["order_id"] ?: return
-                // Lógica para órdenes completadas
             }
         }
     }

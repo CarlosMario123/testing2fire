@@ -18,9 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-/**
- * Botón primario reutilizable
- */
+
 @Composable
 fun PrimaryButton(
     text: String,
@@ -61,9 +59,7 @@ fun PrimaryButton(
     }
 }
 
-/**
- * Botón secundario reutilizable
- */
+
 @Composable
 fun SecondaryButton(
     text: String,

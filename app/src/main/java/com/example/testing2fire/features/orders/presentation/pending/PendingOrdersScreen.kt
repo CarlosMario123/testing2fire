@@ -29,6 +29,8 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.testing2fire.R
 import com.example.testing2fire.features.orders.domain.model.Order
+import com.example.testing2fire.features.orders.presentation.pending.state.AssignOrderState
+import com.example.testing2fire.features.orders.presentation.pending.state.UiState
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -44,23 +46,23 @@ fun PendingOrdersScreen(
     val assignOrderState by viewModel.assignOrderState.collectAsState()
     val context = LocalContext.current
 
-    // Efecto para mostrar mensajes de error/éxito en la asignación de pedidos
+
     LaunchedEffect(assignOrderState) {
         when (assignOrderState) {
-            is PendingOrdersViewModel.AssignOrderState.Success -> {
-                val order = (assignOrderState as PendingOrdersViewModel.AssignOrderState.Success).order
+            is AssignOrderState.Success -> {
+                val order = (assignOrderState as AssignOrderState.Success).order
                 Toast.makeText(
                     context,
                     "Pedido asignado correctamente",
                     Toast.LENGTH_SHORT
                 ).show()
-                // Navegar a la pantalla de detalles del pedido asignado
+
                 onOrderSelected(order.id) // Update the selected order ID for bottom nav
                 navController.navigate("order_details/${order.id}")
                 viewModel.resetAssignOrderState()
             }
-            is PendingOrdersViewModel.AssignOrderState.Error -> {
-                val message = (assignOrderState as PendingOrdersViewModel.AssignOrderState.Error).message
+            is AssignOrderState.Error -> {
+                val message = (assignOrderState as AssignOrderState.Error).message
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                 viewModel.resetAssignOrderState()
             }
@@ -94,12 +96,12 @@ fun PendingOrdersScreen(
                 .background(Color(0xFF07203C))
         ) {
             when (uiState) {
-                is PendingOrdersViewModel.UiState.Loading -> {
+                is UiState.Loading -> {
                     LoadingIndicator()
                 }
-                is PendingOrdersViewModel.UiState.Success -> {
-                    val orders = (uiState as PendingOrdersViewModel.UiState.Success).orders
-                    val hasMore = (uiState as PendingOrdersViewModel.UiState.Success).hasMore
+                is UiState.Success -> {
+                    val orders = (uiState as UiState.Success).orders
+                    val hasMore = (uiState as UiState.Success).hasMore
 
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
@@ -111,11 +113,11 @@ fun PendingOrdersScreen(
                                 order = order,
                                 onAssignClicked = {
                                     viewModel.assignOrder(order.id)
-                                    // When assigning an order, update the active order ID for bottom nav
+
                                     onActiveOrderSelected(order.id)
                                 },
                                 onItemClicked = {
-                                    // When clicking an order, update the selected order ID for bottom nav
+
                                     onOrderSelected(order.id)
                                     navController.navigate("order_details/${order.id}")
                                 }
@@ -145,7 +147,7 @@ fun PendingOrdersScreen(
                     }
 
                     // Mostrar indicador de carga si estamos asignando un pedido
-                    if (assignOrderState is PendingOrdersViewModel.AssignOrderState.Loading) {
+                    if (assignOrderState is AssignOrderState.Loading) {
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -156,14 +158,14 @@ fun PendingOrdersScreen(
                         }
                     }
                 }
-                is PendingOrdersViewModel.UiState.Error -> {
-                    val errorMessage = (uiState as PendingOrdersViewModel.UiState.Error).message
+                is UiState.Error -> {
+                    val errorMessage = (uiState as UiState.Error).message
                     ErrorView(
                         errorMessage = errorMessage,
                         onRetry = { viewModel.retry() }
                     )
                 }
-                is PendingOrdersViewModel.UiState.Empty -> {
+                is UiState.Empty -> {
                     EmptyView(
                         onRefresh = { viewModel.loadPendingOrders(refresh = true) }
                     )
@@ -199,7 +201,6 @@ fun PendingOrderItem(
                 .padding(16.dp)
                 .background(Color.Transparent) // Fondo transparente dentro del contenido
         ) {
-            // Cliente y fecha
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -231,7 +232,7 @@ fun PendingOrderItem(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Notas del pedido
+
             Text(
                 text = "Notas: ${order.notes}",
                 style = MaterialTheme.typography.bodyMedium,
@@ -242,7 +243,6 @@ fun PendingOrderItem(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Botón para tomar el pedido
             Button(
                 onClick = onAssignClicked,
                 modifier = Modifier

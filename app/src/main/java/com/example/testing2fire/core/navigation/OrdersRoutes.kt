@@ -37,7 +37,7 @@ fun NavGraphBuilder.ordersRoutes(
             onActiveOrderSelected = { orderId ->
                 val order = pendingOrdersViewModel.getOrderById(orderId)
                 order?.let {
-                    // Establecer la orden activa en OrderManager
+
                     orderManager.setActiveOrder(it)
                     navController.navigate(Screen.ActiveOrder.createRoute(orderId))
                 }
@@ -68,7 +68,7 @@ fun NavGraphBuilder.ordersRoutes(
             orderId = orderId,
             onBackPressed = { navController.navigateUp() },
             onOrderCompleted = {
-                // Limpiar la orden activa en OrderManager
+                // Limpiar el orden manager que es nuestro contexto de la app
                 orderManager.clearActiveOrder()
 
                 navController.navigate(Screen.PendingOrders.route) {

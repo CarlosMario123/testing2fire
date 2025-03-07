@@ -25,26 +25,23 @@ fun MainNavigationGraph(
     onOrderDetailsSelected: (String) -> Unit = {},
     onActiveOrderSelected: (String) -> Unit = {}
 ) {
-    // Usar OrderManager en lugar de estado local
+    // Usar OrderManager esta en contexto global
     val orderManager = OrderManager.getInstance()
     val activeOrder by orderManager.activeOrder.collectAsState()
 
-    // Determine if we should show the bottom navigation
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    // Only show bottom nav for order-related screens
+
     val showBottomBar = currentRoute == Screen.PendingOrders.route ||
             currentRoute?.startsWith("active_order") == true
 
-    // Extraer orderId y actualizar OrderManager si es necesario
+
     if (currentRoute?.startsWith("active_order") == true) {
         navBackStackEntry?.arguments?.getString("orderId")?.let { orderId ->
-            // Solo notificar si cambia el ID
             if (orderManager.getActiveOrderId() != orderId) {
                 onActiveOrderSelected(orderId)
-                // La orden completa debería obtenerse del repositorio y establecerse en OrderManager
-                // Aquí solo manejamos la notificación del cambio
+
             }
         }
     }

@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.testing2fire.features.orders.domain.model.Order
 import com.example.testing2fire.features.orders.domain.repository.OrderRepository
 import com.example.testing2fire.features.orders.domain.usecase.GetPendingOrdersUseCase
+import com.example.testing2fire.features.orders.presentation.pending.state.AssignOrderState
+import com.example.testing2fire.features.orders.presentation.pending.state.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -15,20 +17,8 @@ class PendingOrdersViewModel(
 ) : ViewModel() {
 
     // Estados UI
-    sealed class UiState {
-        object Loading : UiState()
-        data class Success(val orders: List<Order>, val hasMore: Boolean) : UiState()
-        data class Error(val message: String) : UiState()
-        object Empty : UiState()
-    }
 
-    // Estado de asignación de pedido
-    sealed class AssignOrderState {
-        object Idle : AssignOrderState()
-        object Loading : AssignOrderState()
-        data class Success(val order: Order) : AssignOrderState()
-        data class Error(val message: String) : AssignOrderState()
-    }
+
 
     private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
     val uiState: StateFlow<UiState> = _uiState

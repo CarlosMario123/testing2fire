@@ -23,58 +23,44 @@ class PreferencesManager(context: Context) {
 
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
-    // StateFlows para observar cambios
     private val authTokenFlow = MutableStateFlow<String?>(sharedPreferences.getString(AUTH_TOKEN, null))
     private val fcmTokenFlow = MutableStateFlow<String?>(sharedPreferences.getString(FCM_TOKEN, null))
 
-    /**
-     * Guarda un valor en las preferencias
-     */
+
     suspend fun savePreference(key: String, value: String) {
         sharedPreferences.edit().putString(key, value).apply()
 
-        // Actualizar el Flow correspondiente
+
         when (key) {
             AUTH_TOKEN -> authTokenFlow.value = value
             FCM_TOKEN -> fcmTokenFlow.value = value
         }
     }
 
-    /**
-     * Obtiene un valor de las preferencias
-     */
+
     fun getPreference(key: String): String? {
         return sharedPreferences.getString(key, null)
     }
 
-    /**
-     * Obtiene un valor de las preferencias como Flow
-     */
+
     fun getPreferenceFlow(key: String): Flow<String?> {
         return when (key) {
             AUTH_TOKEN -> authTokenFlow.asStateFlow()
             FCM_TOKEN -> fcmTokenFlow.asStateFlow()
             else -> {
-                // Para otros valores, creamos un Flow estático
+
                 MutableStateFlow(sharedPreferences.getString(key, null)).asStateFlow()
             }
         }
     }
 
-    /**
-     * Borra todas las preferencias (útil para logout)
-     */
+
     suspend fun clearAllPreferences() {
         sharedPreferences.edit().clear().apply()
-
-        // Actualizar todos los Flows
         authTokenFlow.value = null
         fcmTokenFlow.value = null
     }
 
-    /**
-     * Métodos específicos para manejar el token de autenticación
-     */
     suspend fun saveAuthToken(token: String) {
         savePreference(AUTH_TOKEN, token)
     }
@@ -86,10 +72,6 @@ class PreferencesManager(context: Context) {
     fun getAuthTokenFlow(): Flow<String?> {
         return authTokenFlow.asStateFlow()
     }
-
-    /**
-     * Métodos específicos para manejar el token de FCM
-     */
     suspend fun saveFCMToken(token: String) {
         savePreference(FCM_TOKEN, token)
     }

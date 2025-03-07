@@ -33,7 +33,7 @@ fun BottomNavigationBar(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    // Obtener la orden activa del OrderManager
+
     val activeOrder by orderManager.activeOrder.collectAsState()
 
     NavigationBar(
@@ -49,10 +49,10 @@ fun BottomNavigationBar(
                     currentDestination?.route?.startsWith("active_order") == true
             }
 
-            // Determinar si el ítem debe estar habilitado
+
             val enabled = when (item) {
-                BottomNavItem.PendingOrders -> true // Siempre habilitado
-                BottomNavItem.ActiveOrders -> activeOrder != null // Solo habilitado si hay una orden activa
+                BottomNavItem.PendingOrders -> true
+                BottomNavItem.ActiveOrders -> activeOrder != null
             }
 
             NavigationBarItem(
@@ -85,7 +85,7 @@ fun BottomNavigationBar(
                                 }
                             }
                             BottomNavItem.ActiveOrders -> {
-                                // Solo navegar si tenemos una orden activa
+
                                 activeOrder?.let { order ->
                                     navController.navigate(Screen.ActiveOrder.createRoute(order.id)) {
                                         launchSingleTop = true
